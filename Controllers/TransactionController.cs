@@ -12,6 +12,7 @@ public class TransactionController : ControllerBase
     public TransactionController(ITransactionService transactionService, ILogger<TransactionController> logger)
     {
         _transactionService = transactionService;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -21,6 +22,9 @@ public class TransactionController : ControllerBase
         {
 
             var response = await _transactionService.ProcessTransaction(request, fromUserId);
+
+            _logger.LogInformation("Request: {@Request}", request);
+            _logger.LogInformation("Response: {@Response}", response);
 
             return Ok(response);
         }
