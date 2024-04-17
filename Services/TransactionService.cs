@@ -15,7 +15,6 @@
 
         public async Task<TransactionResponse> ProcessTransaction(TransactionRequest request, string fromUserId)
         {
-            // Find the user
             var rcvUser = await _context.Users.FindAsync(request.UserId);
             var sndUser = await _context.Users.FindAsync(fromUserId);
 
@@ -37,7 +36,6 @@
                 };
             }
 
-            // Check the currency
             if (sndUser.Currency != request.Currency || rcvUser.Currency != request.Currency)
             {
                 return new TransactionResponse
@@ -47,7 +45,6 @@
                 };
             }
 
-            // Update the user's balance
             sndUser.Balance -= request.Amount;
             rcvUser.Balance += request.Amount;
             _context.Users.Update(sndUser);
